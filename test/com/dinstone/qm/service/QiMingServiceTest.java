@@ -136,6 +136,23 @@ public class QiMingServiceTest {
         res = qmService.selectBestWuGeXingMing(res);
         showResult(res);
     }
+    
+    /**
+     * "高"测算
+     */
+    @Test
+    public final void testFindXingMing04() {
+        Word[] ws = new Word[] { new Word("高", 10, WuXing.MU) };
+        List<XingMing> res = qmService.findXingMing(ws);
+        System.out.println("所有可能的组合:");
+        showResult(res);
+
+        System.out.println("==============================================");
+
+        System.out.println("筛选过的的组合:");
+        res = qmService.selectBestWuGeXingMing(res);
+        showResult(res);
+    }
 
     private void showResult(List<XingMing> res) {
         for (XingMing xingMing : res) {
