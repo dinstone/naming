@@ -1,7 +1,7 @@
 
 package com.dinstone.qm.model;
 
-public class WuGeShuLi {
+public class ShuLi {
 
     /** 五格数 */
     private int wuGeShu;
@@ -12,7 +12,7 @@ public class WuGeShuLi {
     /** 五格数暗示 */
     private String desc;
 
-    public WuGeShuLi(int wuGeShu, int level, String desc) {
+    public ShuLi(int wuGeShu, int level, String desc) {
         this.wuGeShu = wuGeShu;
         this.level = level;
         this.desc = desc;
@@ -22,7 +22,7 @@ public class WuGeShuLi {
      * Description: the wuGeShu to get
      * 
      * @return the wuGeShu
-     * @see WuGeShuLi#wuGeShu
+     * @see ShuLi#wuGeShu
      */
     public int getWuGeShu() {
         return wuGeShu;
@@ -32,7 +32,7 @@ public class WuGeShuLi {
      * Description: the wuGeShu to set
      * 
      * @param wuGeShu
-     * @see WuGeShuLi#wuGeShu
+     * @see ShuLi#wuGeShu
      */
     public void setWuGeShu(int wuGeShu) {
         this.wuGeShu = wuGeShu;
@@ -42,7 +42,7 @@ public class WuGeShuLi {
      * Description: the level to get
      * 
      * @return the level
-     * @see WuGeShuLi#level
+     * @see ShuLi#level
      */
     public int getLevel() {
         return level;
@@ -52,7 +52,7 @@ public class WuGeShuLi {
      * Description: the level to set
      * 
      * @param level
-     * @see WuGeShuLi#level
+     * @see ShuLi#level
      */
     public void setLevel(int level) {
         this.level = level;
@@ -62,7 +62,7 @@ public class WuGeShuLi {
      * Description: the desc to get
      * 
      * @return the desc
-     * @see WuGeShuLi#desc
+     * @see ShuLi#desc
      */
     public String getDesc() {
         return desc;
@@ -72,7 +72,7 @@ public class WuGeShuLi {
      * Description: the desc to set
      * 
      * @param desc
-     * @see WuGeShuLi#desc
+     * @see ShuLi#desc
      */
     public void setDesc(String desc) {
         this.desc = desc;

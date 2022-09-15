@@ -4,20 +4,20 @@ package com.dinstone.qm.model;
 public class XingMing {
 
     /** 姓氏 */
-    private XingShi xingShi;
+    private Xing xing;
 
     /** 名字 */
     private Word[] ming;
 
     /** 三才配置 */
-    private SanCaiPeiZhi sanCaiPeiZhi;
+    private SanCai sanCaiPeiZhi;
 
-    public XingMing(XingShi xingShi, Word[] ming, SanCaiPeiZhi sanCaiPeiZhi) {
+    public XingMing(Xing xingShi, Word[] ming, SanCai sanCaiPeiZhi) {
         if (ming == null || ming.length != 2) {
             throw new IllegalArgumentException("名字必须为2个汉字");
         }
 
-        this.xingShi = xingShi;
+        this.xing = xingShi;
         this.ming = ming;
         this.sanCaiPeiZhi = sanCaiPeiZhi;
     }
@@ -28,7 +28,7 @@ public class XingMing {
      * @return
      */
     public int getTianGeShu() {
-        return xingShi.getTianGeShu();
+        return xing.getTianGeShu();
     }
 
     /**
@@ -37,7 +37,7 @@ public class XingMing {
      * @return
      */
     public int getRenGeShu() {
-        Word[] xs = xingShi.getXing();
+        Word[] xs = xing.getXing();
         int tgs = 0;
         if (xs.length == 1) {
             tgs = xs[0].getKxStroke() + ming[0].getKxStroke();
@@ -63,7 +63,7 @@ public class XingMing {
      */
     public int getZongGeShu() {
         int zgs = 0;
-        Word[] xs = xingShi.getXing();
+        Word[] xs = xing.getXing();
         for (Word x : xs) {
             zgs += x.getKxStroke();
         }
@@ -80,7 +80,7 @@ public class XingMing {
      * @return
      */
     public int getWaiGeShu() {
-        Word[] xs = xingShi.getXing();
+        Word[] xs = xing.getXing();
         int tgs = 0;
         if (xs.length == 1) {
             tgs = ming[1].getKxStroke() + 1;
@@ -94,10 +94,10 @@ public class XingMing {
      * Description: the xingShi to get
      * 
      * @return the xingShi
-     * @see XingMing#xingShi
+     * @see XingMing#xing
      */
-    public XingShi getXingShi() {
-        return xingShi;
+    public Xing getXingShi() {
+        return xing;
     }
 
     /**
@@ -116,7 +116,7 @@ public class XingMing {
      * @return the sanCaiPeiZhi
      * @see XingMing#sanCaiPeiZhi
      */
-    public SanCaiPeiZhi getSanCaiPeiZhi() {
+    public SanCai getSanCaiPeiZhi() {
         return sanCaiPeiZhi;
     }
 

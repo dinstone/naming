@@ -3,89 +3,93 @@ package com.dinstone.qm.model;
 
 public class Word {
 
-    /** 中文汉字 */
-    private String cnChar;
+    /** 简体汉字 */
+    private String jtChar;
+
+    /** 简体字笔画 */
+    private int jtStroke;
+
+    /** 繁体汉字 */
+    private String ftChar;
+
+    /** 繁体字笔画 */
+    private int ftStroke;
 
     /** 康熙字笔画 */
     private int kxStroke;
 
+    /** 汉字拼音 */
+    private String pingyin;
+
     /** 字属性 */
-    private WuXing attribute;
+    private WuXing wuxing;
 
-    public Word(String cnChar, int kxStroke, WuXing attribute) {
-        this.cnChar = cnChar;
+    public Word(String cnChar, int kxStroke, WuXing wuXing) {
+        this.jtChar = cnChar;
         this.kxStroke = kxStroke;
-        this.attribute = attribute;
+        this.wuxing = wuXing;
     }
 
-    /**
-     * Description: the cnChar to get
-     * 
-     * @return the cnChar
-     * @see Word#cnChar
-     */
-    public String getCnChar() {
-        return cnChar;
+    public String getJtChar() {
+        return jtChar;
     }
 
-    /**
-     * Description: the cnChar to set
-     * 
-     * @param cnChar
-     * @see Word#cnChar
-     */
-    public void setCnChar(String cnChar) {
-        this.cnChar = cnChar;
+    public void setJtChar(String jtChar) {
+        this.jtChar = jtChar;
     }
 
-    /**
-     * Description: the kxStroke to get
-     * 
-     * @return the kxStroke
-     * @see Word#kxStroke
-     */
+    public int getJtStroke() {
+        return jtStroke;
+    }
+
+    public void setJtStroke(int jtStroke) {
+        this.jtStroke = jtStroke;
+    }
+
+    public String getFtChar() {
+        return ftChar;
+    }
+
+    public void setFtChar(String ftChar) {
+        this.ftChar = ftChar;
+    }
+
+    public int getFtStroke() {
+        return ftStroke;
+    }
+
+    public void setFtStroke(int ftStroke) {
+        this.ftStroke = ftStroke;
+    }
+
     public int getKxStroke() {
         return kxStroke;
     }
 
-    /**
-     * Description: the kxStroke to set
-     * 
-     * @param kxStroke
-     * @see Word#kxStroke
-     */
     public void setKxStroke(int kxStroke) {
         this.kxStroke = kxStroke;
     }
 
-    /**
-     * Description: the attribute to get
-     * 
-     * @return the attribute
-     * @see Word#attribute
-     */
-    public WuXing getAttribute() {
-        return attribute;
+    public String getPingyin() {
+        return pingyin;
     }
 
-    /**
-     * Description: the attribute to set
-     * 
-     * @param attribute
-     * @see Word#attribute
-     */
-    public void setAttribute(WuXing attribute) {
-        this.attribute = attribute;
+    public void setPingyin(String pingyin) {
+        this.pingyin = pingyin;
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see java.lang.Object#toString()
-     */
+    public WuXing getWuxing() {
+        return wuxing;
+    }
+
+    public void setWuxing(WuXing wuxing) {
+        this.wuxing = wuxing;
+    }
+
     @Override
     public String toString() {
-        return cnChar + "(" + kxStroke + "," + attribute + ")";
+        return "Word [jtChar=" + jtChar + ", pingyin=" + pingyin + ", kxStroke=" + kxStroke + ", wuxing=" + wuxing
+                + "]";
     }
 
 }

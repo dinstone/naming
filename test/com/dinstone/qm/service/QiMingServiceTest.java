@@ -8,9 +8,8 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.dinstone.qm.model.SanCaiPeiZhi;
+import com.dinstone.qm.model.ShuLi;
 import com.dinstone.qm.model.Word;
-import com.dinstone.qm.model.WuGeShuLi;
 import com.dinstone.qm.model.WuXing;
 import com.dinstone.qm.model.XingMing;
 
@@ -29,51 +28,13 @@ public class QiMingServiceTest {
         config.setMaxX(30);
         config.setMaxY(30);
 
-        for (Entry<Integer, WuGeShuLi> e : config.getWuGeShuLiMap().entrySet()) {
-            System.out.println(e.getKey() + " : " + e.getValue().getLevel() + " : " + e.getValue().getDesc());
+        for (Entry<Integer, ShuLi> e : config.getWuGeShuLiMap().entrySet()) {
+            System.out.println(e.getKey() + "|" + e.getValue().getLevel() + "|" + e.getValue().getDesc());
         }
 
         System.out.println("--------------------------------------------------------");
 
         qmService = new QiMingService(config);
-    }
-
-    private static void zhangSancai(List<SanCaiPeiZhi> scpz) {
-        SanCaiPeiZhi temp = new SanCaiPeiZhi(WuXing.MU, WuXing.MU, WuXing.MU, 1, "大吉");
-        scpz.add(temp);
-
-        temp = new SanCaiPeiZhi(WuXing.MU, WuXing.MU, WuXing.HUO, 1, "大吉");
-        scpz.add(temp);
-
-        temp = new SanCaiPeiZhi(WuXing.MU, WuXing.MU, WuXing.TU, 1, "大吉");
-        scpz.add(temp);
-
-        temp = new SanCaiPeiZhi(WuXing.MU, WuXing.HUO, WuXing.TU, 1, "大吉");
-        scpz.add(temp);
-
-        temp = new SanCaiPeiZhi(WuXing.MU, WuXing.SHUI, WuXing.MU, 1, "大吉");
-        scpz.add(temp);
-
-        temp = new SanCaiPeiZhi(WuXing.MU, WuXing.SHUI, WuXing.JIN, 1, "大吉");
-        scpz.add(temp);
-
-        temp = new SanCaiPeiZhi(WuXing.MU, WuXing.SHUI, WuXing.SHUI, 1, "大吉");
-        scpz.add(temp);
-
-    }
-
-    private static void guoSancai(List<SanCaiPeiZhi> scpz) {
-        SanCaiPeiZhi temp = new SanCaiPeiZhi(WuXing.TU, WuXing.HUO, WuXing.TU, 1, "大吉");
-        scpz.add(temp);
-
-        temp = new SanCaiPeiZhi(WuXing.TU, WuXing.HUO, WuXing.MU, 1, "大吉");
-        scpz.add(temp);
-
-        temp = new SanCaiPeiZhi(WuXing.TU, WuXing.TU, WuXing.JIN, 1, "大吉");
-        scpz.add(temp);
-
-        temp = new SanCaiPeiZhi(WuXing.TU, WuXing.JIN, WuXing.TU, 1, "大吉");
-        scpz.add(temp);
     }
 
     /**
@@ -176,23 +137,40 @@ public class QiMingServiceTest {
         showResult(res);
     }
 
+    /**
+     * "万"测算
+     */
+    @Test
+    public final void testFindXingMing06() {
+        Word[] ws = new Word[] { new Word("万", 15, WuXing.SHUI) };
+        List<XingMing> res = qmService.findXingMing(ws);
+        System.out.println("所有可能的组合:");
+        showResult(res);
+
+        System.out.println("==============================================");
+
+        System.out.println("筛选过的的组合:");
+        res = qmService.selectBestWuGeXingMing(res);
+        showResult(res);
+    }
+
     private void showResult(List<XingMing> res) {
         for (XingMing xingMing : res) {
             StringBuilder sb = new StringBuilder();
             Word[] xs = xingMing.getXingShi().getXing();
             for (Word word : xs) {
-                sb.append(word.getCnChar());
-                sb.append("(" + word.getKxStroke() + ")");
+                sb.append(word.getJtChar());
+                sb.append("(" + word.getWuxing() + "," + word.getKxStroke() + ")");
             }
             sb.append("\t");
             Word m = xingMing.getMing()[0];
-            sb.append(m.getCnChar());
-            sb.append("(" + m.getKxStroke() + ")");
+            sb.append(m.getJtChar());
+            sb.append("(" + m.getWuxing() + "," + m.getKxStroke() + ")");
 
             sb.append("\t");
             m = xingMing.getMing()[1];
-            sb.append(m.getCnChar());
-            sb.append("(" + m.getKxStroke() + ")");
+            sb.append(m.getJtChar());
+            sb.append("(" + m.getWuxing() + "," + m.getKxStroke() + ")");
 
             sb.append("\t " + xingMing.getSanCaiPeiZhi());
 

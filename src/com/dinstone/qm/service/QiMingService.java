@@ -6,13 +6,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.dinstone.qm.model.SanCaiPeiZhi;
+import com.dinstone.qm.model.SanCai;
+import com.dinstone.qm.model.ShuLi;
 import com.dinstone.qm.model.Word;
 import com.dinstone.qm.model.WuGe;
-import com.dinstone.qm.model.WuGeShuLi;
 import com.dinstone.qm.model.WuXing;
+import com.dinstone.qm.model.Xing;
 import com.dinstone.qm.model.XingMing;
-import com.dinstone.qm.model.XingShi;
 
 public class QiMingService {
 
@@ -26,18 +26,19 @@ public class QiMingService {
      * Description:由姓氏查找姓名
      * 
      * @param xings
+     * 
      * @return
      */
     public List<XingMing> findXingMing(Word[] xings) {
         List<XingMing> xmList = new LinkedList<XingMing>();
 
         // 计算姓氏的天格和五行属性
-        XingShi xingShi = new XingShi(xings);
+        Xing xingShi = new Xing(xings);
 
         // 根据天格五行属性查找最佳三才配置
-        List<SanCaiPeiZhi> sanCaiPeiZhis = findBestSanCaiPeiZhi(xingShi);
+        List<SanCai> sanCaiPeiZhis = findBestSanCaiPeiZhi(xingShi);
         // 遍历最佳三才配置，寻找最佳五格数理，推算名字笔画
-        for (SanCaiPeiZhi sanCaiPeiZhi : sanCaiPeiZhis) {
+        for (SanCai sanCaiPeiZhi : sanCaiPeiZhis) {
             xmList.addAll(findXingMing(xingShi, sanCaiPeiZhi));
         }
 
@@ -48,14 +49,15 @@ public class QiMingService {
      * Description:
      * 
      * @param xmList
+     * 
      * @return
      */
     public List<XingMing> selectBestWuGeXingMing(List<XingMing> xmList) {
         List<XingMing> bxmList = new LinkedList<XingMing>();
-        Map<Integer, WuGeShuLi> wgslm = config.getWuGeShuLiMap();
+        Map<Integer, ShuLi> wgslm = config.getWuGeShuLiMap();
         for (XingMing xingMing : xmList) {
             int c = 0;
-            WuGeShuLi wgsl = wgslm.get(xingMing.getTianGeShu());
+            ShuLi wgsl = wgslm.get(xingMing.getTianGeShu());
             // c += wgsl.getLevel();
 
             wgsl = wgslm.get(xingMing.getRenGeShu());
@@ -83,9 +85,10 @@ public class QiMingService {
      * @param xingShi
      * @param renGes
      * @param diGes
+     * 
      * @return
      */
-    private List<XingMing> findXingMing(XingShi xingShi, SanCaiPeiZhi sanCaiPeiZhi) {
+    private List<XingMing> findXingMing(Xing xingShi, SanCai sanCaiPeiZhi) {
         // 由人才计算最佳人格：人格%10=人才
         WuXing renCai = sanCaiPeiZhi.getRenCai();
         List<WuGe> renGes = findBestWuGe(renCai);
@@ -109,7 +112,7 @@ public class QiMingService {
                 if (y < 1 || y > maxy) {
                     continue;
                 }
-                Word[] mingzi = new Word[] { new Word("X", x, null), new Word("Y", y, null) };
+                Word[] mingzi = new Word[] { new Word("X", x, renGe.getWuXing()), new Word("Y", y, diGe.getWuXing()) };
                 XingMing xm = new XingMing(xingShi, mingzi, sanCaiPeiZhi);
                 xmList.add(xm);
             }
@@ -122,6 +125,7 @@ public class QiMingService {
      * 
      * @param diGes
      * @param x
+     * 
      * @return
      */
     private List<WuGe> selectDiGe(List<WuGe> diGes, int x) {
@@ -141,9 +145,10 @@ public class QiMingService {
      * 
      * @param xingShi
      * @param renGe
+     * 
      * @return
      */
-    private int getMingZiKxStroke(XingShi xingShi, WuGe renGe) {
+    private int getMingZiKxStroke(Xing xingShi, WuGe renGe) {
         Word[] xs = xingShi.getXing();
         if (xs.length == 1) {
             return renGe.getWuGeShu() - xs[0].getKxStroke();
@@ -155,6 +160,7 @@ public class QiMingService {
      * Description:计算最佳三格：三格%10=三才
      * 
      * @param sanCai
+     * 
      * @return 三格
      */
     private List<WuGe> findBestWuGe(WuXing sanCai) {
@@ -187,14 +193,15 @@ public class QiMingService {
      * Description: 根据天格五行属性查找最佳三才配置
      * 
      * @param xingShi
-     *        天格
+     *            天格
+     * 
      * @return
      */
-    private List<SanCaiPeiZhi> findBestSanCaiPeiZhi(XingShi xingShi) {
-        WuXing tianCai = WuXing.calculate(xingShi.getTianGe().getWuGeShu());
-        List<SanCaiPeiZhi> sanCaiPeiZhis = new ArrayList<SanCaiPeiZhi>();
-        List<SanCaiPeiZhi> scpzList = config.getSanCaiPeiZhiList();
-        for (SanCaiPeiZhi sanCaiPeiZhi : scpzList) {
+    private List<SanCai> findBestSanCaiPeiZhi(Xing xingShi) {
+        WuXing tianCai = xingShi.getTianGe().getWuXing();
+        List<SanCai> sanCaiPeiZhis = new ArrayList<SanCai>();
+        List<SanCai> scpzList = config.getSanCaiPeiZhiList();
+        for (SanCai sanCaiPeiZhi : scpzList) {
             if (tianCai.equals(sanCaiPeiZhi.getTianCai()) && sanCaiPeiZhi.getLevel() > 0) {
                 sanCaiPeiZhis.add(sanCaiPeiZhi);
             }

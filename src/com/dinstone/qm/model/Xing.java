@@ -1,19 +1,19 @@
 
 package com.dinstone.qm.model;
 
-public class XingShi {
+public class Xing {
 
     /** 姓氏 */
-    private Word[] xing;
+    private Word[] words;
 
-    public XingShi(Word[] xingShi) {
+    public Xing(Word[] xingShi) {
         if (xingShi == null) {
             throw new IllegalArgumentException("姓氏不能为空");
         }
         if (xingShi.length > 2) {
             throw new IllegalArgumentException("姓氏不能超过2个汉字");
         }
-        xing = xingShi;
+        words = xingShi;
     }
 
     /**
@@ -28,10 +28,10 @@ public class XingShi {
 
     public int getTianGeShu() {
         int tgs = 0;
-        if (xing.length == 1) {
-            tgs = xing[0].getKxStroke() + 1;
+        if (words.length == 1) {
+            tgs = words[0].getKxStroke() + 1;
         } else {
-            tgs = xing[0].getKxStroke() + xing[1].getKxStroke();
+            tgs = words[0].getKxStroke() + words[1].getKxStroke();
         }
         return tgs;
     }
@@ -40,10 +40,10 @@ public class XingShi {
      * Description: the xing to get
      * 
      * @return the xing
-     * @see XingShi#xing
+     * @see Xing#words
      */
     public Word[] getXing() {
-        return xing;
+        return words;
     }
 
 }

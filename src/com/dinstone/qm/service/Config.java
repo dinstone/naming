@@ -12,15 +12,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import com.dinstone.qm.model.SanCaiPeiZhi;
-import com.dinstone.qm.model.WuGeShuLi;
+import com.dinstone.qm.model.SanCai;
+import com.dinstone.qm.model.ShuLi;
 import com.dinstone.qm.model.WuXing;
 
 public class Config {
 
-    private static final Map<Integer, WuGeShuLi> wuGeShuLiMap = initWuGeShuLi();
+    private static final Map<Integer, ShuLi> wuGeShuLiMap = initWuGeShuLi();
 
-    private List<SanCaiPeiZhi> sanCaiPeiZhiList = loadSanCaiBiao();
+    private static final List<SanCai> sanCaiPeiZhiList = initSanCaiPeizhi();
 
     private int maxX;
 
@@ -30,9 +30,11 @@ public class Config {
      * Description: 加载基于类路径下的属性(.properties)文件.
      * 
      * @param location
-     *        基于类路径下的.properties文件位置
+     *            基于类路径下的.properties文件位置
+     * 
      * @throws IOException
-     *         文件找不到或文件不可读
+     *             文件找不到或文件不可读
+     * 
      * @return 属性列表
      */
     public static Properties loadProperties(String location) throws IOException {
@@ -47,17 +49,17 @@ public class Config {
         return ps;
     }
 
-    private static List<SanCaiPeiZhi> loadSanCaiBiao() {
-        List<SanCaiPeiZhi> scpzList = new ArrayList<SanCaiPeiZhi>();
+    private static List<SanCai> initSanCaiPeizhi() {
+        List<SanCai> scpzList = new ArrayList<SanCai>();
         try {
             ClassLoader cl = Thread.currentThread().getContextClassLoader();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(cl.getResourceAsStream("SanCaiBiao.txt"),
-                "utf-8"));
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(cl.getResourceAsStream("SanCaiBiao.txt"), "utf-8"));
             String temp = null;
             while ((temp = reader.readLine()) != null) {
                 String[] ts = temp.split("\\|", 3);
-                SanCaiPeiZhi scpz = new SanCaiPeiZhi(findWuXing(ts[0].charAt(0)), findWuXing(ts[0].charAt(1)),
-                    findWuXing(ts[0].charAt(2)), Integer.parseInt(ts[1]), ts[2]);
+                SanCai scpz = new SanCai(findWuXing(ts[0].charAt(0)), findWuXing(ts[0].charAt(1)),
+                        findWuXing(ts[0].charAt(2)), Integer.parseInt(ts[1]), ts[2]);
                 scpzList.add(scpz);
             }
             reader.close();
@@ -92,7 +94,33 @@ public class Config {
      * 
      * @return
      */
-    private static Map<Integer, WuGeShuLi> initWuGeShuLi() {
+    private static Map<Integer, ShuLi> initWuGeShuLi() {
+        Map<Integer, ShuLi> wgslMap = new HashMap<Integer, ShuLi>();
+        try {
+            ClassLoader cl = Thread.currentThread().getContextClassLoader();
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(cl.getResourceAsStream("wugeshuli.txt"), "utf-8"));
+            String temp = null;
+            while ((temp = reader.readLine()) != null) {
+                String[] ts = temp.split("\\|", 3);
+                int wgs = Integer.parseInt(ts[0]);
+                String level = ts[1];
+                int lvl = 0;
+                if ("吉".equals(level)) {
+                    lvl = 1;
+                } else if ("凶".equals(level)) {
+                    lvl = -1;
+                }
+                ShuLi wgsl = new ShuLi(wgs, lvl, ts[2]);
+                wgslMap.put(wgs, wgsl);
+            }
+            reader.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         Properties props = null;
         try {
             props = loadProperties("WuGeShuLi.properties");
@@ -100,7 +128,6 @@ public class Config {
             throw new RuntimeException(e);
         }
 
-        Map<Integer, WuGeShuLi> wgslMap = new HashMap<Integer, WuGeShuLi>();
         for (Object key : props.keySet()) {
             String v = props.getProperty(key.toString());
             String level = v.substring(0, 1);
@@ -112,7 +139,7 @@ public class Config {
             }
 
             int wgs = Integer.parseInt(key.toString());
-            WuGeShuLi wgsl = new WuGeShuLi(wgs, lvl, v.substring(2));
+            ShuLi wgsl = new ShuLi(wgs, lvl, v.substring(2));
             wgslMap.put(wgs, wgsl);
         }
 
@@ -136,9 +163,10 @@ public class Config {
      * Description: the wugeshulimap to get
      * 
      * @return the wugeshulimap
+     * 
      * @see Config#wugeshulimap
      */
-    public Map<Integer, WuGeShuLi> getWuGeShuLiMap() {
+    public Map<Integer, ShuLi> getWuGeShuLiMap() {
         return wuGeShuLiMap;
     }
 
@@ -146,26 +174,18 @@ public class Config {
      * Description: the sanCaiPeiZhiList to get
      * 
      * @return the sanCaiPeiZhiList
-     * @see Config#sanCaiPeiZhiList
-     */
-    public List<SanCaiPeiZhi> getSanCaiPeiZhiList() {
-        return sanCaiPeiZhiList;
-    }
-
-    /**
-     * Description: the sanCaiPeiZhiList to set
      * 
-     * @param sanCaiPeiZhiList
      * @see Config#sanCaiPeiZhiList
      */
-    public void setSanCaiPeiZhiList(List<SanCaiPeiZhi> sanCaiPeiZhiList) {
-        this.sanCaiPeiZhiList = sanCaiPeiZhiList;
+    public List<SanCai> getSanCaiPeiZhiList() {
+        return sanCaiPeiZhiList;
     }
 
     /**
      * Description: the maxX to get
      * 
      * @return the maxX
+     * 
      * @see Config#maxX
      */
     public int getMaxX() {
@@ -176,6 +196,7 @@ public class Config {
      * Description: the maxX to set
      * 
      * @param maxX
+     * 
      * @see Config#maxX
      */
     public void setMaxX(int maxX) {
@@ -186,6 +207,7 @@ public class Config {
      * Description: the maxY to get
      * 
      * @return the maxY
+     * 
      * @see Config#maxY
      */
     public int getMaxY() {
@@ -196,6 +218,7 @@ public class Config {
      * Description: the maxY to set
      * 
      * @param maxY
+     * 
      * @see Config#maxY
      */
     public void setMaxY(int maxY) {

@@ -12,10 +12,18 @@ public class SanCai {
     /** 地才 */
     private WuXing diCai;
 
-    private SanCai(WuXing tianCai, WuXing renCai, WuXing diCai) {
+    /** 三才配置级别 */
+    private int level;
+
+    /** 三才配置描述 */
+    private String desc;
+
+    public SanCai(WuXing tianCai, WuXing renCai, WuXing diCai, int level, String desc) {
         this.tianCai = tianCai;
         this.renCai = renCai;
         this.diCai = diCai;
+        this.level = level;
+        this.desc = desc;
     }
 
     /**
@@ -46,6 +54,36 @@ public class SanCai {
      */
     public WuXing getDiCai() {
         return diCai;
+    }
+
+    /**
+     * Description: the level to get
+     * 
+     * @return the level
+     * @see SanCai#level
+     */
+    public int getLevel() {
+        return level;
+    }
+
+    /**
+     * Description: the desc to get
+     * 
+     * @return the desc
+     * @see SanCai#desc
+     */
+    public String getDesc() {
+        return desc;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "三才配置 [" + tianCai.getName() + ", " + renCai.getName() + ", " + diCai.getName() + ", " + desc + "]";
     }
 
 }
