@@ -160,17 +160,17 @@ public class QiMingServiceTest {
             Word[] xs = xingMing.getXingShi().getXing();
             for (Word word : xs) {
                 sb.append(word.getJtChar());
-                sb.append("(" + word.getWuxing() + "," + word.getKxStroke() + ")");
+                sb.append("(" + word.getKxStroke() + ")");
             }
             sb.append("\t");
             Word m = xingMing.getMing()[0];
             sb.append(m.getJtChar());
-            sb.append("(" + m.getWuxing() + "," + m.getKxStroke() + ")");
+            sb.append("(" + m.getKxStroke() + ")");
 
             sb.append("\t");
             m = xingMing.getMing()[1];
             sb.append(m.getJtChar());
-            sb.append("(" + m.getWuxing() + "," + m.getKxStroke() + ")");
+            sb.append("(" + m.getKxStroke() + ")");
 
             sb.append("\t " + xingMing.getSanCaiPeiZhi());
 

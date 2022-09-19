@@ -96,6 +96,7 @@ public class QiMingService {
         WuXing diCai = sanCaiPeiZhi.getDiCai();
         // 由地才计算最佳地格：地格%10=地才
         List<WuGe> diGes = findBestWuGe(diCai);
+
         List<XingMing> xmList = new LinkedList<XingMing>();
         int maxx = config.getMaxX();
         for (WuGe renGe : renGes) {
