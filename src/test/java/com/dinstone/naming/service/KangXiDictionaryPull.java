@@ -1,4 +1,4 @@
-package com.dinstone.qm.service;
+package com.dinstone.naming.service;
 
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;

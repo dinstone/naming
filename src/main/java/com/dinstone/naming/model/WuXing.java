@@ -1,5 +1,5 @@
 
-package com.dinstone.qm.model;
+package com.dinstone.naming.model;
 
 public class WuXing {
 
@@ -37,6 +37,7 @@ public class WuXing {
      * Description: the name to get
      * 
      * @return the name
+     * 
      * @see WuXing#name
      */
     public String getName() {
@@ -47,6 +48,7 @@ public class WuXing {
      * Description: the yinShu to get
      * 
      * @return the yinShu
+     * 
      * @see WuXing#yinShu
      */
     public int getYinShu() {
@@ -57,6 +59,7 @@ public class WuXing {
      * Description: the yangShu to get
      * 
      * @return the yangShu
+     * 
      * @see WuXing#yangShu
      */
     public int getYangShu() {
@@ -77,6 +80,7 @@ public class WuXing {
      * Description:根据五行数计算五行
      * 
      * @param wuXingShu
+     * 
      * @return
      */
     public static WuXing calculate(int wuXingShu) {
@@ -123,9 +127,15 @@ public class WuXing {
      * Description: 根据五行名称计算五行
      * 
      * @param wuXingName
+     * 
      * @return
      */
     public static WuXing calculate(String wuXingName) {
+        wuXingName = wuXingName.trim();
+        if (wuXingName == null || wuXingName.length() == 0) {
+            return null;
+        }
+
         WuXing wxres = null;
         if ("金".equals(wuXingName)) {
             wxres = JIN;
@@ -137,8 +147,6 @@ public class WuXing {
             wxres = HUO;
         } else if ("土".equals(wuXingName)) {
             wxres = TU;
-        } else {
-            throw new IllegalArgumentException("错误的五行名称:" + wuXingName);
         }
         return wxres;
     }

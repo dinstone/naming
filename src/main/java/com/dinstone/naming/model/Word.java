@@ -1,5 +1,5 @@
 
-package com.dinstone.qm.model;
+package com.dinstone.naming.model;
 
 public class Word {
 
@@ -23,6 +23,14 @@ public class Word {
 
     /** 字属性 */
     private WuXing wuxing;
+
+    public Word() {
+        super();
+    }
+
+    public Word(String cnChar, int kxStroke) {
+        this(cnChar, kxStroke, null);
+    }
 
     public Word(String cnChar, int kxStroke, WuXing wuXing) {
         this.jtChar = cnChar;
@@ -88,8 +96,7 @@ public class Word {
 
     @Override
     public String toString() {
-        return "Word [jtChar=" + jtChar + ", pingyin=" + pingyin + ", kxStroke=" + kxStroke + ", wuxing=" + wuxing
-                + "]";
+        return jtChar + "(" + pingyin + ")[笔画=" + kxStroke + ", 五行=" + wuxing + "]";
     }
 
 }

@@ -1,24 +1,24 @@
 
-package com.dinstone.qm.service;
+package com.dinstone.naming.service;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.dinstone.qm.model.SanCai;
-import com.dinstone.qm.model.ShuLi;
-import com.dinstone.qm.model.Word;
-import com.dinstone.qm.model.WuGe;
-import com.dinstone.qm.model.WuXing;
-import com.dinstone.qm.model.Xing;
-import com.dinstone.qm.model.XingMing;
+import com.dinstone.naming.model.SanCai;
+import com.dinstone.naming.model.ShuLi;
+import com.dinstone.naming.model.Word;
+import com.dinstone.naming.model.WuGe;
+import com.dinstone.naming.model.WuXing;
+import com.dinstone.naming.model.Xing;
+import com.dinstone.naming.model.XingMing;
 
-public class QiMingService {
+public class NamingService {
 
     private Config config;
 
-    public QiMingService(Config config) {
+    public NamingService(Config config) {
         this.config = config;
     }
 
@@ -29,14 +29,15 @@ public class QiMingService {
      * 
      * @return
      */
-    public List<XingMing> findXingMing(Word[] xings) {
-        List<XingMing> xmList = new LinkedList<XingMing>();
-
-        // 计算姓氏的天格和五行属性
-        Xing xingShi = new Xing(xings);
+    public List<XingMing> findXingMing(Xing xingShi) {
+        if (xingShi == null) {
+            throw new IllegalArgumentException("姓氏不能为空");
+        }
 
         // 根据天格五行属性查找最佳三才配置
         List<SanCai> sanCaiPeiZhis = findBestSanCaiPeiZhi(xingShi);
+
+        List<XingMing> xmList = new LinkedList<XingMing>();
         // 遍历最佳三才配置，寻找最佳五格数理，推算名字笔画
         for (SanCai sanCaiPeiZhi : sanCaiPeiZhis) {
             xmList.addAll(findXingMing(xingShi, sanCaiPeiZhi));
@@ -113,7 +114,7 @@ public class QiMingService {
                 if (y < 1 || y > maxy) {
                     continue;
                 }
-                Word[] mingzi = new Word[] { new Word("X", x, renGe.getWuXing()), new Word("Y", y, diGe.getWuXing()) };
+                Word[] mingzi = new Word[] { new Word("X", x), new Word("Y", y) };
                 XingMing xm = new XingMing(xingShi, mingzi, sanCaiPeiZhi);
                 xmList.add(xm);
             }

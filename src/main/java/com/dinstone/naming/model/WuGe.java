@@ -1,5 +1,5 @@
 
-package com.dinstone.qm.model;
+package com.dinstone.naming.model;
 
 public class WuGe {
 

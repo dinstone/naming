@@ -1,12 +1,14 @@
 
-package com.dinstone.qm.model;
+package com.dinstone.naming.model;
+
+import java.util.Arrays;
 
 public class Xing {
 
     /** 姓氏 */
     private Word[] words;
 
-    public Xing(Word[] xingShi) {
+    public Xing(Word... xingShi) {
         if (xingShi == null) {
             throw new IllegalArgumentException("姓氏不能为空");
         }
@@ -40,10 +42,16 @@ public class Xing {
      * Description: the xing to get
      * 
      * @return the xing
+     * 
      * @see Xing#words
      */
     public Word[] getXing() {
         return words;
+    }
+
+    @Override
+    public String toString() {
+        return "姓氏=" + Arrays.toString(words) + "]";
     }
 
 }

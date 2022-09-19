@@ -1,5 +1,5 @@
 
-package com.dinstone.qm.service;
+package com.dinstone.naming.service;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import com.dinstone.qm.model.SanCai;
-import com.dinstone.qm.model.ShuLi;
-import com.dinstone.qm.model.WuXing;
+import com.dinstone.naming.model.SanCai;
+import com.dinstone.naming.model.ShuLi;
+import com.dinstone.naming.model.WuXing;
 
 public class Config {
 
@@ -54,7 +54,7 @@ public class Config {
         try {
             ClassLoader cl = Thread.currentThread().getContextClassLoader();
             BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(cl.getResourceAsStream("SanCaiBiao.txt"), "utf-8"));
+                    new InputStreamReader(cl.getResourceAsStream("sancaipeizhi.txt"), "utf-8"));
             String temp = null;
             while ((temp = reader.readLine()) != null) {
                 String[] ts = temp.split("\\|", 3);
@@ -105,7 +105,7 @@ public class Config {
                 String[] ts = temp.split("\\|", 3);
                 int wgs = Integer.parseInt(ts[0]);
                 String level = ts[1];
-                int lvl = 0;
+                int lvl = Integer.parseInt(ts[1]);
                 if ("吉".equals(level)) {
                     lvl = 1;
                 } else if ("凶".equals(level)) {
@@ -121,27 +121,27 @@ public class Config {
             e.printStackTrace();
         }
 
-        Properties props = null;
-        try {
-            props = loadProperties("WuGeShuLi.properties");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        for (Object key : props.keySet()) {
-            String v = props.getProperty(key.toString());
-            String level = v.substring(0, 1);
-            int lvl = 0;
-            if ("吉".equals(level)) {
-                lvl = 1;
-            } else if ("凶".equals(level)) {
-                lvl = -1;
-            }
-
-            int wgs = Integer.parseInt(key.toString());
-            ShuLi wgsl = new ShuLi(wgs, lvl, v.substring(2));
-            wgslMap.put(wgs, wgsl);
-        }
+        // Properties props = null;
+        // try {
+        // props = loadProperties("WuGeShuLi.properties");
+        // } catch (IOException e) {
+        // throw new RuntimeException(e);
+        // }
+        //
+        // for (Object key : props.keySet()) {
+        // String v = props.getProperty(key.toString());
+        // String level = v.substring(0, 1);
+        // int lvl = 0;
+        // if ("吉".equals(level)) {
+        // lvl = 1;
+        // } else if ("凶".equals(level)) {
+        // lvl = -1;
+        // }
+        //
+        // int wgs = Integer.parseInt(key.toString());
+        // ShuLi wgsl = new ShuLi(wgs, lvl, v.substring(2));
+        // wgslMap.put(wgs, wgsl);
+        // }
 
         return wgslMap;
     }
